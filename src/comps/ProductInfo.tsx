@@ -1,6 +1,14 @@
 import React from 'react';
 import Product from '../types/Product'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+    CardMedia
+} from '@mui/material';
 
 interface CartItemProps {
     product?: Product;
@@ -9,7 +17,7 @@ interface CartItemProps {
     onCloseClick: () => void;
 }
 
-const ProductInfo: React.FC<CartItemProps> = ({ product, open,onCloseClick,onOrderClick }) => {
+const ProductInfo: React.FC<CartItemProps> = ({ product, open, onCloseClick, onOrderClick }) => {
 
     return (
         <Dialog
@@ -17,19 +25,34 @@ const ProductInfo: React.FC<CartItemProps> = ({ product, open,onCloseClick,onOrd
             onClose={onCloseClick}
             dir="rtl"
         >
-            <DialogTitle id="alert-dialog-title">
+            <DialogTitle id="info-dialog-title">
                 {product?.name}
             </DialogTitle>
             <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    {`${product?.description}\n ${product?.price}₪`}
+                <DialogContentText id="info-dialog-description">
+                    {product?.description}
                 </DialogContentText>
+                <DialogContentText>
+                    {`מחיר: ${product?.price}`}
+                </DialogContentText>
+                <CardMedia
+                    component="img"
+                    image={product?.image}
+                    sx={{ maxWidth: 300, maxHeight: 400, objectFit: 'contain' }}
+                    alt={product?.name}
+                    title={product?.name}
+                />
             </DialogContent>
             <DialogActions>
-                <Button onClick={onCloseClick}>הוסף לעגלה</Button>
-                <Button onClick={onCloseClick} autoFocus>
-                    סגור
+                <Button onClick={() => {
+                    if (product) {
+                        onOrderClick(product);
+                    }
+                    onCloseClick();
+                }} >
+                    הוסף לעגלה
                 </Button>
+                <Button onClick={onCloseClick} autoFocus>סגור</Button>
             </DialogActions>
         </Dialog>
     );
