@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { List, Button, Typography, LinearProgress, Alert } from '@mui/material';
+import { List, Button, Typography, Box } from '@mui/material';
 import { removeFromCart, selectCart, selectCartTotalPrice } from '../reducers/cartReducer';
 import { buyProduct, selectUserCredit } from '../reducers/userReducer'
 import CartItem from './CartItem';
 import Product from '../types/Product';
 import OrderCompleteDialog from './OrderCompleteDialog';
+import OrderProgressBar from './OrderProgressBar';
 
 const CartTab: React.FC = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const CartTab: React.FC = () => {
 
     dispatch(buyProduct(cart[0].price));
     dispatch(removeFromCart(0));
-    setProgress(((index + 1) / 100) * cart.length);
+    setProgress(((index + 1) / cart.length) * 100);
   }
 
   const orderProducts = async () => {
@@ -41,7 +42,6 @@ const CartTab: React.FC = () => {
 
       for (let index = 0; index < cart.length; index++) {
         await orderProduct(index);
-        console.log(cart);
       }
 
       setProgress(0);
@@ -55,17 +55,21 @@ const CartTab: React.FC = () => {
     <div>
       {!isCartEmpty ? (
         <>
-          <Button
-            color='primary'
-            size='large'
-            variant="contained"
-            sx={{ textAlign: 'center' }}
-            onClick={() => {
-              // dispatch(buy(totalPrice));
-              orderProducts();
-            }}>
-            {`הזמן ${totalPrice.toFixed(2)}₪`}
-          </Button>
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              color='primary'
+              size='large'
+              variant="contained"
+              sx={{ textAlign: 'center' }}
+              onClick={() => {
+                orderProducts();
+              }}>
+              {`הזמן ${totalPrice.toFixed(2)}₪`}
+            </Button>
+          </Box>
+          {isOrderInProgress && (
+            <OrderProgressBar open={isOrderInProgress} progress={progress}/>
+          )}
           <List>
             {cart.map((product: Product, index: number) => (
               <CartItem
@@ -80,11 +84,6 @@ const CartTab: React.FC = () => {
         <Typography sx={{ textAlign: 'center' }}>
           העגלה ריקה
         </Typography>
-      )}
-      {isOrderInProgress && (
-        <Alert icon={false} severity="info">
-          <LinearProgress variant="determinate" value={progress} sx={{ marginTop: 2 }} />
-        </Alert>
       )}
       <OrderCompleteDialog open={open} onCloseClick={handleClose} />
     </div>

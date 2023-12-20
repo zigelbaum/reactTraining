@@ -21,7 +21,6 @@ const cartSlice = createSlice({
             state.totalPrice += action.payload.price;
         },
         removeFromCart: (state, action: PayloadAction<number>) => {
-            console.log(state.products.length);
             state.totalPrice -= state.products[action.payload].price;
             state.products = state.products.filter((product,index) => index !== action.payload);
         },
