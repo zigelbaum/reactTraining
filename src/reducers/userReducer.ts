@@ -13,13 +13,13 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        buy: (state, action: PayloadAction<number>) => {
+        buyProduct: (state, action: PayloadAction<number>) => {
             state.credit -= action.payload;
         }
     },
 });
 
-export const { buy } = userSlice.actions;
+export const { buyProduct } = userSlice.actions;
 export const selectUserCredit = (state: RootState) => state.user.credit;
 
 export default userSlice.reducer;

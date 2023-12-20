@@ -31,7 +31,7 @@ function App() {
           </Badge>
 
           <Typography variant="h6">
-            סכום כולל: {userCredit}₪
+            {`סכום כולל: ${userCredit.toFixed(2)}₪`}
           </Typography>
         </Toolbar>
       </AppBar>

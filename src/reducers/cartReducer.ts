@@ -23,14 +23,8 @@ const cartSlice = createSlice({
         removeFromCart: (state, action: PayloadAction<number>) => {
             console.log(state.products.length);
             state.totalPrice -= state.products[action.payload].price;
-            state.products.splice(action.payload, 1);
+            state.products = state.products.filter((product,index) => index !== action.payload);
         },
-    },
-    extraReducers: (builder) => {
-        builder.addCase('user/buy', (state, action) => {
-
-            return initialState;
-        });
     },
 });
 

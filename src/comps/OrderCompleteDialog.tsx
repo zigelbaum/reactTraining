@@ -12,7 +12,6 @@ interface OrderCompleteProps {
 }
 
 const OrderCompleteDialog: React.FC<OrderCompleteProps> = ({open, onCloseClick}) => {
-    console.log("order component");
     return (
         <Dialog
             open={open}
