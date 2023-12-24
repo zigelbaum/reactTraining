@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { List, Button, Typography, Box } from '@mui/material';
+import { List, Button, Typography, Box, Snackbar, Alert, LinearProgress } from '@mui/material';
+
 import { removeFromCart, selectCart, selectCartTotalPrice } from '../reducers/cartReducer';
 import { buyProduct, selectUserCredit } from '../reducers/userReducer'
 import CartItem from './CartItem';
 import Product from '../types/Product';
 import OrderCompleteDialog from './OrderCompleteDialog';
-import OrderProgressBar from './OrderProgressBar';
 
 const CartTab: React.FC = () => {
   const dispatch = useDispatch();
@@ -16,16 +16,13 @@ const CartTab: React.FC = () => {
 
   const isCartEmpty: boolean = cart.length === 0;
 
-  const [open, setOpen] = useState(false);
+  const [orderSuccessOpen, setOrderSuccessOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const [isOrderInProgress, setIsOrderInProgress] = useState(false);
-
-  const handleOpen = () => {
-    setOpen(true);
-  }
+  const [orderFailOpen, setOrderFailOpen] = useState(false)
 
   const handleClose = () => {
-    setOpen(false);
+    setOrderSuccessOpen(false);
   }
 
   const orderProduct = async (index: number) => {
@@ -46,15 +43,30 @@ const CartTab: React.FC = () => {
 
       setProgress(0);
       setIsOrderInProgress(false);
-      handleOpen();
+      setOrderSuccessOpen(true);
+    } else {
+      setOrderFailOpen(true);
     }
-
   };
 
   return (
     <div>
       {!isCartEmpty ? (
         <>
+          <Snackbar
+            open={isOrderInProgress}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Alert icon={false} variant='filled' severity='info'>
+              <LinearProgress variant="determinate" value={progress} sx={{ width: '200px' }} />
+            </Alert>
+          </Snackbar>
+          <Snackbar
+            open={orderFailOpen}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Alert icon={false} variant='filled' severity='error'>
+              {`ההזמנה לא הושלמה`}
+            </Alert>
+          </Snackbar>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               color='primary'
@@ -67,9 +79,6 @@ const CartTab: React.FC = () => {
               {`הזמן ${totalPrice.toFixed(2)}₪`}
             </Button>
           </Box>
-          {isOrderInProgress && (
-            <OrderProgressBar open={isOrderInProgress} progress={progress}/>
-          )}
           <List>
             {cart.map((product: Product, index: number) => (
               <CartItem
@@ -85,7 +94,7 @@ const CartTab: React.FC = () => {
           העגלה ריקה
         </Typography>
       )}
-      <OrderCompleteDialog open={open} onCloseClick={handleClose} />
+      <OrderCompleteDialog open={orderSuccessOpen} onCloseClick={handleClose} />
     </div>
   );
 };

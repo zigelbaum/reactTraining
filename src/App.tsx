@@ -6,7 +6,6 @@ import { TabPanel, TabContext } from '@mui/lab';
 import { AppBar, Badge, Toolbar, Typography, Box, Tabs, Tab } from '@mui/material';
 
 import './App.css';
-import data from './data/products.json';
 import ProductsListTab from './comps/ProductsListTab';
 import CartTab from './comps/CartTab';
 import {selectUserCredit} from './reducers/userReducer'
@@ -49,7 +48,7 @@ function App() {
             <CartTab />
           </TabPanel>
           <TabPanel value="1">
-            <ProductsListTab products={data} />
+            <ProductsListTab />
           </TabPanel>
         </TabContext>
       </Box>
