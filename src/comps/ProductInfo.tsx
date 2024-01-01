@@ -7,7 +7,6 @@ import {
     DialogContentText,
     DialogActions,
     Button,
-    CardMedia
 } from '@mui/material';
 
 interface CartItemProps {
@@ -17,42 +16,41 @@ interface CartItemProps {
     onCloseClick: () => void;
 }
 
-const ProductInfo: React.FC<CartItemProps> = ({ product, open, onCloseClick, onOrderClick }) => {
+const ProductInfo = (props: CartItemProps) => {
 
     return (
         <Dialog
-            open={open}
-            onClose={onCloseClick}
+            open={props.open}
+            onClose={props.onCloseClick}
             dir="rtl"
         >
             <DialogTitle id="info-dialog-title">
-                {product?.name}
+                {props.product?.name}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText id="info-dialog-description">
-                    {product?.description}
+                    {props.product?.description}
                 </DialogContentText>
                 <DialogContentText>
-                    {`מחיר: ${product?.price}`}
+                    {`מחיר: ${props.product?.price}`}
                 </DialogContentText>
-                <CardMedia
-                    component="img"
-                    image={product?.image}
-                    sx={{ maxWidth: 300, maxHeight: 400, objectFit: 'contain' }}
-                    alt={product?.name}
-                    title={product?.name}
+                <img
+                    src={props.product?.image}
+                    style={{ maxWidth: 300, maxHeight: 400, objectFit: 'contain' }}
+                    alt={props.product?.name}
+                    title={props.product?.name}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => {
-                    if (product) {
-                        onOrderClick(product);
+                    if (props.product) {
+                        props.onOrderClick(props.product);
                     }
-                    onCloseClick();
+                    props.onCloseClick();
                 }} >
                     הוסף לעגלה
                 </Button>
-                <Button onClick={onCloseClick} autoFocus>סגור</Button>
+                <Button onClick={props.onCloseClick} autoFocus>סגור</Button>
             </DialogActions>
         </Dialog>
     );

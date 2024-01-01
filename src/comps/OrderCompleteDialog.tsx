@@ -11,18 +11,18 @@ interface OrderCompleteProps {
     onCloseClick: () => void;
 }
 
-const OrderCompleteDialog: React.FC<OrderCompleteProps> = ({open, onCloseClick}) => {
+const OrderCompleteDialog = (props: OrderCompleteProps) => {
     return (
         <Dialog
-            open={open}
-            onClose={onCloseClick}
+            open={props.open}
+            onClose={props.onCloseClick}
             dir="rtl"
         >
             <DialogTitle id="order-complete-dialog-title">
                 {`תתחדש\י!`}
             </DialogTitle>
             <DialogActions>
-                <Button onClick={onCloseClick} autoFocus>סגור</Button>
+                <Button onClick={props.onCloseClick} autoFocus>סגור</Button>
             </DialogActions>
         </Dialog>
     )

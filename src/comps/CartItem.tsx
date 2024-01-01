@@ -10,21 +10,19 @@ interface CartItemProps {
     onDeleteClick: () => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ item, index, onDeleteClick }) => {
+const CartItem = (props: CartItemProps) => {
     return (
-        <>
-        <ListItem key={index}>
-            <Button onClick={onDeleteClick}>
+        <ListItem key={props.index}>
+            <Button onClick={props.onDeleteClick}>
                 <DeleteIcon color='error' />
             </Button>
             <ListItemText
                 sx={{ textAlign: 'right', marginRight: '20px' }}
-                primary={item.name}
-                secondary={`${item.price}₪`}
+                primary={props.item.name}
+                secondary={`${props.item.price}₪`}
             />
-            <Avatar alt={item.name} src={item.image} sx={{ width: 50, height: 50 }} />
+            <Avatar alt={props.item.name} src={props.item.image} sx={{ width: 50, height: 50 }} />
         </ListItem>
-      </>
     );
 }
 

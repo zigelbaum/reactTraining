@@ -7,8 +7,9 @@ import { buyProduct, selectUserCredit } from '../reducers/userReducer'
 import CartItem from './CartItem';
 import Product from '../types/Product';
 import OrderCompleteDialog from './OrderCompleteDialog';
+import AlertSnackBar from './AlertSnackBar';
 
-const CartTab: React.FC = () => {
+const CartTab = () => {
   const dispatch = useDispatch();
   const cart = useSelector(selectCart);
   const totalPrice = useSelector(selectCartTotalPrice);
@@ -16,10 +17,10 @@ const CartTab: React.FC = () => {
 
   const isCartEmpty: boolean = cart.length === 0;
 
-  const [orderSuccessOpen, setOrderSuccessOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [isOrderInProgress, setIsOrderInProgress] = useState(false);
-  const [orderFailOpen, setOrderFailOpen] = useState(false)
+  const [orderSuccessOpen, setOrderSuccessOpen] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
+  const [isOrderInProgress, setIsOrderInProgress] = useState<boolean>(false);
+  const [orderFailOpen, setOrderFailOpen] = useState<boolean>(false)
 
   const handleClose = () => {
     setOrderSuccessOpen(false);
@@ -53,20 +54,14 @@ const CartTab: React.FC = () => {
     <div>
       {!isCartEmpty ? (
         <>
-          <Snackbar
+          <AlertSnackBar
             open={isOrderInProgress}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-            <Alert icon={false} variant='filled' severity='info'>
-              <LinearProgress variant="determinate" value={progress} sx={{ width: '200px' }} />
-            </Alert>
-          </Snackbar>
-          <Snackbar
+            alertSeverity={'info'}
+            alertContent={<LinearProgress variant="determinate" value={progress} sx={{ width: '200px' }} />} />
+          <AlertSnackBar
             open={orderFailOpen}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-            <Alert icon={false} variant='filled' severity='error'>
-              {`ההזמנה לא הושלמה`}
-            </Alert>
-          </Snackbar>
+            alertSeverity={'error'}
+            alertContent={`ההזמנה לא הושלמה`} />
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
               color='primary'
