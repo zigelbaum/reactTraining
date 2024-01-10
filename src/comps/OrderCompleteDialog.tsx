@@ -5,8 +5,9 @@ import {
     DialogActions,
     Button,
 } from '@mui/material';
+import BasicProps from '../basicProps';
 
-interface OrderCompleteProps {
+interface OrderCompleteProps extends BasicProps {
     open: boolean;
     onCloseClick: () => void;
 }

@@ -3,8 +3,9 @@ import Product from '../types/Product';
 
 import { ListItem, ListItemText, Avatar, Button } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import BasicProps from '../basicProps';
 
-interface CartItemProps {
+interface CartItemProps extends BasicProps {
     item: Product;
     index: number;
     onDeleteClick: () => void;
@@ -12,7 +13,7 @@ interface CartItemProps {
 
 const CartItem = (props: CartItemProps) => {
     return (
-        <ListItem key={props.index}>
+        <ListItem key={props.index} data-testid={props.testid}> 
             <Button onClick={props.onDeleteClick}>
                 <DeleteIcon color='error' />
             </Button>

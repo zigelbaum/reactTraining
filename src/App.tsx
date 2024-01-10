@@ -2,38 +2,30 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Home, ShoppingCart } from '@mui/icons-material';
-import { TabPanel, TabContext } from '@mui/lab';
-import { AppBar, Badge, Toolbar, Typography, Box, Tabs, Tab } from '@mui/material';
+import { TabPanel, TabContext} from '@mui/lab';
+import { Tabs, Tab, Box } from '@mui/material';
+import TabList from '@mui/lab/TabList';
 
 import './App.css';
 import ProductsListTab from './comps/ProductsListTab';
 import CartTab from './comps/CartTab';
-import {selectUserCredit} from './reducers/userReducer'
-import {selectCartTotalCount} from './reducers/cartReducer'
+import { selectUserCredit } from './reducers/userReducer'
+import { selectCartTotalCount } from './reducers/cartReducer'
+import CustomAppBar from './comps/customAppBar';
 
 function App() {
   const userCredit = useSelector(selectUserCredit);
   const cartTotal = useSelector(selectCartTotalCount);
 
-  const [tab, setTab] = useState<number>(1);
+  const [tab, setTab] = useState<string>('1');
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue);
   };
 
   return (
     <div className="App">
-      <AppBar position='sticky'>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <Badge badgeContent={cartTotal} color="warning">
-            <ShoppingCart color="action" />
-          </Badge>
-
-          <Typography variant="h6">
-            {`סכום כולל: ${userCredit.toFixed(2)}₪`}
-          </Typography>
-        </Toolbar>
-      </AppBar>
+      <CustomAppBar testid={"custom-appbar"}/>
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Tabs value={tab} onChange={handleTabChange} >
@@ -42,16 +34,14 @@ function App() {
         </Tabs>
       </Box>
 
-      <Box>
-        <TabContext value={tab.toString()}>
-          <TabPanel value="0">
-            <CartTab />
-          </TabPanel>
-          <TabPanel value="1">
-            <ProductsListTab />
-          </TabPanel>
-        </TabContext>
-      </Box>
+      <TabContext value={tab.toString()}>
+        <TabPanel value="0">
+          <CartTab testid={"cart-tab"}/>
+        </TabPanel>
+        <TabPanel value="1">
+          <ProductsListTab testid={"products-tab"}/>
+        </TabPanel>
+      </TabContext>
     </div>
   );
 }

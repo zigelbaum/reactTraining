@@ -8,8 +8,9 @@ import { addToCart } from '../reducers/cartReducer';
 import ProductInfo from './ProductInfo';
 import ProductCard from './ProductCard';
 import useProductsFetch from '../hooks/useProductsFetch';
+import BasicProps from '../basicProps';
 
-const ProductsListTab = () => {
+const ProductsListTab = (props: BasicProps) => {
 
   const dispatch = useDispatch();
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);

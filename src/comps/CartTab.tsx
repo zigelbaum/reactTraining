@@ -8,8 +8,9 @@ import CartItem from './CartItem';
 import Product from '../types/Product';
 import OrderCompleteDialog from './OrderCompleteDialog';
 import AlertSnackBar from './AlertSnackBar';
+import BasicProps from '../basicProps';
 
-const CartTab = () => {
+const CartTab = (props: BasicProps) => {
   const dispatch = useDispatch();
   const cart = useSelector(selectCart);
   const totalPrice = useSelector(selectCartTotalPrice);
@@ -55,15 +56,18 @@ const CartTab = () => {
       {!isCartEmpty ? (
         <>
           <AlertSnackBar
+            testid={`order-alertSnackBar_${props.testid}`}
             open={isOrderInProgress}
             alertSeverity={'info'}
             alertContent={<LinearProgress variant="determinate" value={progress} sx={{ width: '200px' }} />} />
           <AlertSnackBar
+            testid={`orderFail-alertSnackBar_${props.testid}`}
             open={orderFailOpen}
             alertSeverity={'error'}
             alertContent={`ההזמנה לא הושלמה`} />
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Button
+              data-testid={`orderButton_${props.testid}`}
               color='primary'
               size='large'
               variant="contained"
@@ -77,6 +81,7 @@ const CartTab = () => {
           <List>
             {cart.map((product: Product, index: number) => (
               <CartItem
+                testid={`cartItem-${index}_${props.testid}`}
                 item={product}
                 index={index}
                 onDeleteClick={() => {
@@ -89,7 +94,7 @@ const CartTab = () => {
           העגלה ריקה
         </Typography>
       )}
-      <OrderCompleteDialog open={orderSuccessOpen} onCloseClick={handleClose} />
+      <OrderCompleteDialog open={orderSuccessOpen} onCloseClick={handleClose} testid={`orederCompleteDialog_${props.testid}`}/>
     </div>
   );
 };
