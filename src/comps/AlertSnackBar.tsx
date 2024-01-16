@@ -1,10 +1,10 @@
-import React, { ReactNode } from 'react'
+import { ReactNode } from 'react'
 import { Snackbar, Alert, AlertColor } from '@mui/material';
 import BasicProps from '../basicProps';
 
 interface AlertSnackBarProps extends BasicProps{
     open: boolean;
-    alertSeverity: AlertColor | undefined;
+    alertSeverity: AlertColor;
     alertContent: ReactNode;
 }
 

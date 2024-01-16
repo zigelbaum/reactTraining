@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { Grid, LinearProgress, Box } from '@mui/material';
@@ -40,7 +40,7 @@ const ProductsListTab = (props: BasicProps) => {
         (<Grid container rowSpacing={3} columnSpacing={2} justifyContent={'center'}>
           {products?.map((p: Product) => (
             <Grid item key={p.id} >
-              <ProductCard p={p} handleAddToCart={handleAddToCart} handleInfoClicked={handleInfoClicked} />
+              <ProductCard product={p} handleAddToCart={handleAddToCart} handleInfoClicked={handleInfoClicked} />
             </Grid>
           ))}
         </Grid>

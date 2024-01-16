@@ -1,12 +1,10 @@
-import React from 'react'
-
 import { Card, CardContent, CardActions, CardMedia, Button, Typography } from '@mui/material';
 import { Info, ShoppingCart } from '@mui/icons-material';
 
 import Product from '../types/Product';
 
 interface ProductCardProps{
-    p: Product;
+    product: Product;
     handleInfoClicked: (product: Product) => void;
     handleAddToCart: (product: Product) => void;
 }
@@ -16,17 +14,17 @@ const ProductCard = (props: ProductCardProps) => {
         <Card sx={{ width: 300, height: 345, display: 'flex', flexDirection: 'column' }}>
             <CardMedia
                 component="img"
-                image={props.p.image}
+                image={props.product.image}
                 sx={{ maxHeight: 140, width: '100%' }}
-                alt={props.p.name}
-                title={props.p.name}
+                alt={props.product.name}
+                title={props.product.name}
             />
             <CardContent sx={{ flexGrow: 1 }}>
                 <Typography variant="h5" gutterBottom component="div" sx={{ textAlign: 'center' }}>
-                    {props.p.name}
+                    {props.product.name}
                 </Typography>
                 <Typography variant="h6" color="text.secondary" sx={{ textAlign: 'center' }}>
-                    {props.p.price}₪
+                    {props.product.price}₪
                 </Typography>
             </CardContent>
             <CardActions sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 'auto' }}>
@@ -35,7 +33,7 @@ const ProductCard = (props: ProductCardProps) => {
                     color="secondary"
                     startIcon={<Info />}
                     sx={{ margin: '10px' }}
-                    onClick={() => props.handleInfoClicked(props.p)}>
+                    onClick={() => props.handleInfoClicked(props.product)}>
                     פרטים
                 </Button>
                 <Button
@@ -43,7 +41,7 @@ const ProductCard = (props: ProductCardProps) => {
                     color="primary"
                     startIcon={<ShoppingCart />}
                     sx={{ margin: '10px' }}
-                    onClick={() => props.handleAddToCart(props.p)}
+                    onClick={() => props.handleAddToCart(props.product)}
                 >
                     הוסף לעגלה
                 </Button>

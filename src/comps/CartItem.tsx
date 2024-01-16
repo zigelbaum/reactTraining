@@ -1,4 +1,3 @@
-import React from 'react';
 import Product from '../types/Product';
 
 import { ListItem, ListItemText, Avatar, Button } from '@mui/material';
