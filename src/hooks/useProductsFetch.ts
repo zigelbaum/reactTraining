@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Product from "../types/Product";
-import products from '../data/products.json';
+// import products from '../data/products.json';
 
 const useFetch = (): [Product[], boolean] => {
 
@@ -8,23 +8,36 @@ const useFetch = (): [Product[], boolean] => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("https://localhost:5001/products"); // Update the URL accordingly
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
 
-        const loadDataWithDelay = async () => {
-            setTimeout(() => {
-                const data = products.map((product) => ({
+                const productsData = await response.json();
+                const mappedData = productsData.map((product: Product) => ({
                     id: product.id,
+                    code: product.code,
                     name: product.name,
                     description: product.description,
                     image: product.image,
                     price: product.price,
                     category: product.category,
+                    amount: product.amount,
                 }));
-                setData(data);
+
+                setData(mappedData);
                 setIsLoading(false);
-            }, 1000);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                // setIsLoading(true);
+            }
         };
-        loadDataWithDelay();
-    }, [])
+
+        fetchData();
+    }, []);
+
 
     return [data, isLoading];
 };

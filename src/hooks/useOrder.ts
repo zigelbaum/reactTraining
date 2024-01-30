@@ -36,26 +36,61 @@ const useOrder = (): OrderActions => {
         setOrderSuccessOpen(false);
     }
 
-    const orderProduct = async (index: number) => {
-        await new Promise((resolve) => setTimeout(resolve, 500));
+    const updateProductQuantity = async (code: number, newQuantity: number) => {
 
-        dispatch(buyProduct(cart[0].price));
-        dispatch(removeFromCart(0));
-        setProgress(((index + 1) / cart.length) * 100);
+        const response = await fetch(`https://localhost:5001/products/${code}/update-quantity?newQuantity=${newQuantity}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok)
+        {
+            console.error('Failed to update product quantity');
+            throw new Error(`Failed to update product ${code} quantity`);
+        }
+    };
+
+    const orderProduct = async (index: number) => {
+        const productInCart = cart[index];
+        const totalPriceForProduct = productInCart.product.price * productInCart.quantity;
+
+        try
+        {
+            await updateProductQuantity(productInCart.product.code, productInCart.product.amount - productInCart.quantity);
+
+            dispatch(buyProduct(totalPriceForProduct));
+
+            dispatch(removeFromCart(0));
+            setProgress(((index + 1) / cart.length) * 100);
+        } catch (error)
+        {
+            throw error;
+        }
     }
 
     const orderProducts = async () => {
-        if (totalPrice <= userCredit) {
+        if (totalPrice <= userCredit)
+        {
             setIsOrderInProgress(true);
 
-            for (let index = 0; index < cart.length; index++) {
-                await orderProduct(index);
-            }
+            try
+            {
+                for (let index = 0; index < cart.length; index++)
+                {
+                    await orderProduct(index);
+                }
 
-            setProgress(0);
-            setIsOrderInProgress(false);
-            setOrderSuccessOpen(true);
-        } else {
+                setProgress(0);
+                setIsOrderInProgress(false);
+                setOrderSuccessOpen(true);
+            } catch (error) {
+                setIsOrderInProgress(false);
+                setOrderFailOpen(true);
+            }
+        } else
+        {
             setOrderFailOpen(true);
         }
     };

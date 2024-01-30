@@ -1,8 +1,11 @@
 export default interface Product {
-  id: number;
+  id: string;
+  code: number;
   name: string;
   description: string;
-  image: string;
   price: number;
   category: string;
+  amount: number;
+  image: string;
+  createdDate: string;
 }

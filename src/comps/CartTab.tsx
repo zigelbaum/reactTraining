@@ -8,6 +8,7 @@ import OrderCompleteDialog from './OrderCompleteDialog';
 import AlertSnackBar from './AlertSnackBar';
 import BasicProps from '../basicProps';
 import useOrder from '../hooks/useOrder';
+import CartReduxItem from '../types/CartReduxItem';
 
 const CartTab = (props: BasicProps) => {
   const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const CartTab = (props: BasicProps) => {
               {`הזמן ${totalPrice.toFixed(2)}₪`}
             </Button>
           </Box>
-            {cart.map((product: Product, index: number) => (
+            {cart.map((product: CartReduxItem, index: number) => (
               <CartItem
                 testid={`cartItem-${index}_${props.testid}`}
                 item={product}
