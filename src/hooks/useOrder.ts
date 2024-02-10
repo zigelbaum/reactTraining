@@ -36,9 +36,9 @@ const useOrder = (): OrderActions => {
         setOrderSuccessOpen(false);
     }
 
-    const updateProductQuantity = async (code: number, newQuantity: number) => {
+    const updateProductQuantity = async (id: string, newQuantity: number) => {
 
-        const response = await fetch(`https://localhost:5001/products/${code}/update-quantity?newQuantity=${newQuantity}`, {
+        const response = await fetch(`https://localhost:5001/products/${id}/update-quantity?newQuantity=${newQuantity}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -48,7 +48,7 @@ const useOrder = (): OrderActions => {
         if (!response.ok)
         {
             console.error('Failed to update product quantity');
-            throw new Error(`Failed to update product ${code} quantity`);
+            throw new Error(`Failed to update product ${id} quantity`);
         }
     };
 
@@ -58,7 +58,7 @@ const useOrder = (): OrderActions => {
 
         try
         {
-            await updateProductQuantity(productInCart.product.code, productInCart.product.amount - productInCart.quantity);
+            await updateProductQuantity(productInCart.product.id, productInCart.product.amount - productInCart.quantity);
 
             dispatch(buyProduct(totalPriceForProduct));
 
